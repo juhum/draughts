@@ -1,5 +1,5 @@
 import pygame
-from src.constants import WIDTH, HEIGHT, SQUARE_SIZE
+from src.constants import WIDTH, HEIGHT, SQUARE_SIZE, WHITE
 from src.gameboard import Gameboard
 from src.game import Game
 
@@ -21,6 +21,10 @@ def main():
     while run:
         clock.tick(FPS)
 
+        if game.winner() != None:
+            print(game.winner())
+            
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -29,6 +33,7 @@ def main():
                 print(pygame.mouse.get_pos())
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
+                game.select(row, col)
 
         
         game.update()

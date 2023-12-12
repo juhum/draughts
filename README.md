@@ -1,3 +1,3 @@
 pip install -r requirements.txt
 
-Run game.py
+Run play.py

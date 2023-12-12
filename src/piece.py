@@ -1,6 +1,7 @@
 import pygame
 from .constants import BLACK, WHITE, SQUARE_SIZE, YELLOW, GRAY, GRAY_LIGHT
-
+pygame.mixer.init()
+make_king_sound = pygame.mixer.Sound("sounds/make_king_sound.wav")
 class Piece:
     PADDING = 20
     OUTLINE = 2
@@ -20,6 +21,7 @@ class Piece:
 
     def make_king(self):
         self.king = True
+        make_king_sound.play()
 
     def draw_piece(self, window):
         radius = SQUARE_SIZE // 2 - self.PADDING

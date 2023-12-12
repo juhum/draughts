@@ -1,6 +1,9 @@
 import pygame
 from .constants import DARK, LIGHT, BLACK, WHITE, BLUE, ROWS, COLS, SQUARE_SIZE
 from .piece import Piece
+pygame.mixer.init()
+jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
+make_king_sound = pygame.mixer.Sound("sounds/make_king_sound.wav")
 
 class Gameboard:
     def __init__(self):
@@ -13,7 +16,7 @@ class Gameboard:
     def draw_squares(self, window):
         window.fill(DARK)
         for row in range(ROWS):
-            for col in range(row % 2, ROWS, 2):
+            for col in range(row % 2, COLS, 2):
                 pygame.draw.rect(window, LIGHT, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
     def create_board(self):
@@ -40,6 +43,7 @@ class Gameboard:
                 self.white_kings += 1
             else:
                 self.black_kings += 1
+        jump_sound.play()
 
     def get_piece(self, row, col):
         return self.gameboard[row][col]
@@ -52,9 +56,6 @@ class Gameboard:
                 piece = self.gameboard[row][col]
                 if piece != 0:
                     piece.draw_piece(window)
-
-    def draw_valid_moves(self, moves):
-        pass
 
     def get_valid_moves(self, piece):
         moves = {}
@@ -69,13 +70,15 @@ class Gameboard:
             moves.update(self._traverse_right(row + 1, min(row + 3, ROWS), 1, piece.color, right))
 
         return moves
+    
+
     def _traverse_left(self, start, stop, step, color, left, skipped=[]):
         moves = {}
         last = []
         for row in range(start, stop, step):
             if left < 0:
                 break
-            current = self.gameboard.get_piece(row, left)
+            current = self.gameboard[row][left]
             if current == 0:
                 if skipped and not last:
                     break
@@ -85,17 +88,19 @@ class Gameboard:
                     moves[(row, left)] = last
                 if last:
                     if step == -1:
-                        row = max(row - 3, -1)
+                        row = max(row - 3, 0)
                     else:
                         row = min(row + 3, ROWS)
 
                     moves.update(self._traverse_left(row + step, row, step, color, left - 1, skipped=last))
                     moves.update(self._traverse_right(row + step, row, step, color, left + 1, skipped=last))
-                    break
+
+                break
             elif current.color == color:
                 break
             else:
                 last = [current]
+
             left -= 1
 
         return moves
@@ -106,7 +111,7 @@ class Gameboard:
         for row in range(start, stop, step):
             if right >= COLS:
                 break
-            current = self.gameboard.get_piece(row, right)
+            current = self.gameboard[row][right]
             if current == 0:
                 if skipped and not last:
                     break
@@ -116,17 +121,37 @@ class Gameboard:
                     moves[(row, right)] = last
                 if last:
                     if step == -1:
-                        row = max(row - 3, -1)
+                        row = max(row - 3, 0)
                     else:
                         row = min(row + 3, ROWS)
 
                     moves.update(self._traverse_left(row + step, row, step, color, right - 1, skipped=last))
                     moves.update(self._traverse_right(row + step, row, step, color, right + 1, skipped=last))
-                    break
+
+                break
             elif current.color == color:
                 break
             else:
                 last = [current]
+                
             right += 1
         
         return moves
+    
+
+    def remove(self, pieces):
+        for piece in pieces:
+            self.gameboard[piece.row][piece.col] = 0
+            if piece != 0:
+                if piece.color == WHITE:
+                    self.white_left -= 1
+                else:
+                    self.black_left -= 1
+
+    def winner(self):
+        if self.black_left <= 0:
+            return WHITE
+        elif self.white_left <= 0:
+            return BLACK
+        
+        return None
