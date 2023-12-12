@@ -42,7 +42,7 @@ class Game:
           #  skipped = self.valid_moves[(row, col)]
            # if skipped:                         # to test
            #     self.gameboard.remove(skipped)  #to test
-            self.change_turn()                  #to test
+            self.change_turn()                  
         else:
             return False
         
@@ -56,4 +56,4 @@ class Game:
             self.turn = WHITE
 
     def draw_valid_moves(self, moves):
-        
+        pass
