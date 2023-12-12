@@ -10,12 +10,6 @@ class Piece:
         self.col = col
         self.color = color
         self.king = False
-
-        if self.color == BLACK:
-            self.direction = -1
-        else:
-            self.direction = 1
-
         self.x = 0
         self.y = 0
         self.calculate_position()
@@ -27,22 +21,22 @@ class Piece:
     def make_king(self):
         self.king = True
 
-    def draw_piece(self, win):
+    def draw_piece(self, window):
         radius = SQUARE_SIZE // 2 - self.PADDING
 
         # Draw shadow beneath the piece
         shadow_radius = radius + 5
-        pygame.draw.circle(win, GRAY, (self.x + 2, self.y + 2), shadow_radius)
+        pygame.draw.circle(window, GRAY, (self.x + 2, self.y + 2), shadow_radius)
 
         # Draw the piece with an outline
-        pygame.draw.circle(win, GRAY_LIGHT, (self.x, self.y), radius + self.OUTLINE)
-        pygame.draw.circle(win, self.color, (self.x, self.y), radius)
+        pygame.draw.circle(window, GRAY_LIGHT, (self.x, self.y), radius + self.OUTLINE)
+        pygame.draw.circle(window, self.color, (self.x, self.y), radius)
 
         # Draw a crown if the piece is a king
         if self.king:
             crown_offset = 10
             pygame.draw.polygon(
-                win,
+                window,
                 YELLOW,
                 [
                     (self.x - crown_offset, self.y - radius - self.OUTLINE),

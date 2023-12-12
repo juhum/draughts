@@ -1,9 +1,10 @@
 import pygame
 from src.constants import WIDTH, HEIGHT, SQUARE_SIZE
 from src.gameboard import Gameboard
+from src.game import Game
 
 FPS = 60
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Draughts')
 
 def get_row_col_from_mouse(pos):
@@ -15,7 +16,7 @@ def get_row_col_from_mouse(pos):
 def main():
     run = True
     clock = pygame.time.Clock()
-    gameboard = Gameboard()
+    game = Game(WINDOW)
 
     while run:
         clock.tick(FPS)
@@ -25,14 +26,13 @@ def main():
                 run = False
             
             if event.type == pygame.MOUSEBUTTONDOWN:
-                #print(pygame.mouse.get_pos())
+                print(pygame.mouse.get_pos())
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                piece = gameboard.get_piece(row, col)
-                #gameboard.move(piece, 4, 3)
+
         
-        gameboard.draw(WIN)
-        pygame.display.update()
+        game.update()
+        
 
     pygame.quit()
 
