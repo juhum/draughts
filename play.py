@@ -23,6 +23,7 @@ def main():
 
         if game.winner() != None:
             print(game.winner())
+            run = False
             
 
         for event in pygame.event.get():
@@ -30,8 +31,8 @@ def main():
                 run = False
             
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print(pygame.mouse.get_pos())
                 pos = pygame.mouse.get_pos()
+                print(pos)
                 row, col = get_row_col_from_mouse(pos)
                 game.select(row, col)
 
