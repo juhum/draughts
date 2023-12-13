@@ -8,58 +8,71 @@ class Game:
     def __init__(self, window):
         self._init()
         self.window = window
+        
 
     def _init(self):
         self.selected_piece = None
-        self.gameboard = Gameboard()
         self.turn = WHITE
-        self.valid_moves = {}
+        self.valid_moves_of_selected_piece = {}
+        self.gameboard = Gameboard()
 
     def update(self):
         self.gameboard.draw(self.window)
-        self.draw_valid_moves(self.valid_moves)
+        self._draw_valid_moves(self.valid_moves_of_selected_piece)
         pygame.display.update()
 
     def reset(self):
         self._init()
 
-    def select(self, row, col):
+    def select(self, row, col) -> bool:
         if self.selected_piece:
-            result = self._move(row, col)
-            if not result:
+            # try moving the piece to the new location
+            successful_move = self._move(row, col)
+            if successful_move:
                 self.selected_piece = None
-                self.select(row, col)
-                
-        piece = self.gameboard.get_piece(row, col)
-
-        if piece != 0 and piece.color == self.turn:
-            self.selected_piece = piece
-            self.valid_moves = self.gameboard.get_valid_moves(piece)
-            return True
-        
-        return False
+                self.valid_moves_of_selected_piece = {}
+                return False
+            else:
+                # if not successful, deselect the current piece. Try to select the piece in the new location instead if possible
+                self.selected_piece = None
+                return self.select(row, col)
+        else:
+            # try to select the piece under the mouse
+            piece = self.gameboard.get_piece(row, col)
+            if piece != 0 and piece.color == self.turn:
+                # the square under the cursor has a piece of the player's color: select it
+                self.selected_piece = piece
+                self.valid_moves_of_selected_piece = self.gameboard.get_valid_moves(piece)
+                #print(f"location: ({row}, {col})")
+                #print(f"valid moves: {self.valid_moves}")
+                return True
+            else:
+                return False
     
-    def _move(self, row, col):
-        piece = self.gameboard.get_piece(row, col)
-        if self.selected_piece and piece == 0 and (row, col) in self.valid_moves:
-            self.gameboard.move(self.selected_piece, row, col)
-            skipped = self.valid_moves[(row, col)]
-            if skipped:
-                self.gameboard.remove(skipped)
-            self.change_turn()                  
+    def _move(self, row, col) -> bool:
+        # move the piece that is selected
+        target = self.gameboard.get_piece(row, col)
+        if target == 0 and (row, col) in self.valid_moves_of_selected_piece:
+            self.gameboard.move_piece_to(self.selected_piece, row, col)
+            for enemy_piece_loc in self.valid_moves_of_selected_piece[(row, col)]:
+                row, col = enemy_piece_loc
+                enemy_piece = self.gameboard.get_piece(row, col)
+                self.gameboard.capture_piece(enemy_piece)
+            self._change_turn()
+            return True
         else:
             return False
-        
-        return True
     
-    def change_turn(self):
-        self.valid_moves = {}
+    def _change_turn(self):
         if self.turn == WHITE:
             self.turn = BLACK
         else:
             self.turn = WHITE
+        self.update()
+        if not self.gameboard.has_valid_moves(self.turn):
+            self.gameboard.winner = 1 - self.gameboard.color_to_player_map[self.turn]
 
-    def draw_valid_moves(self, moves):
+    def _draw_valid_moves(self, moves):
         for move in moves:
             row, col = move
             center = (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2)
@@ -72,4 +85,4 @@ class Game:
             pygame.draw.circle(self.window, LIGHT_BEIGE, center, pulsate_radius)
 
     def winner(self):
-        return self.gameboard.winner()
+        return self.gameboard.winner

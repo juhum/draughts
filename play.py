@@ -22,7 +22,7 @@ def main():
         clock.tick(FPS)
 
         if game.winner() != None:
-            print(game.winner())
+            print("winner" + str(game.winner()))
             run = False
             
 
