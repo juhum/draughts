@@ -152,19 +152,16 @@ class Gameboard:
         
         return False
 
-    # def remove(self, pieces):
-    #     for piece in pieces:
-    #         self.gameboard[piece.row][piece.col] = 0
-    #         if piece != 0:
-    #             if piece.color == WHITE:
-    #                 self.white_left -= 1
-    #             else:
-    #                 self.black_left -= 1
+    def evaluate(self):
+        '''This calculates the score of the board used by the minimax algorithm'''
+        score = 0
+        score += 3 * (self.number_pieces_player_1_2[0] - self.number_pieces_player_1_2[1])
+        score += 1 * (self.number_kings_player_1_2[0] - self.number_kings_player_1_2[1])
 
-    # def winner(self):
-    #     if self.black_left <= 0:
-    #         return WHITE
-    #     elif self.white_left <= 0:
-    #         return BLACK
-        
-    #     return None
+        return  score
+
+
+    def get_all_pieces(self, color):
+        return self.pieces[self.color_to_player_map[color]]
+    
+

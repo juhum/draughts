@@ -1,7 +1,8 @@
 import pygame
-from src.constants import WIDTH, HEIGHT, SQUARE_SIZE, WHITE
+from src.constants import WIDTH, HEIGHT, SQUARE_SIZE, WHITE, BLACK
 from src.gameboard import Gameboard
 from src.game import Game
+from src.ai import minimax
 
 FPS = 60
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -17,9 +18,13 @@ def main():
     run = True
     clock = pygame.time.Clock()
     game = Game(WINDOW)
-
     while run:
         clock.tick(FPS)
+
+        if game.turn == BLACK:
+            value, new_board = minimax(game.gameboard, 3, BLACK, game)
+            game.ai_move(new_board)
+
 
         if game.winner() != None:
             print("winner" + str(game.winner()))

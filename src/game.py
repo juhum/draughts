@@ -86,3 +86,13 @@ class Game:
 
     def winner(self):
         return self.gameboard.winner
+    
+    def get_board(self):
+        return self.gameboard
+    
+    def get_all_pieces(self, color):
+        return self.pieces[self.color_to_player_map[color]]
+    
+    def ai_move(self, gameboard):
+        self.gameboard = gameboard
+        self._change_turn()
