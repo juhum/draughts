@@ -2,6 +2,8 @@ import pygame
 from .constants import BLACK, WHITE, BLUE, SQUARE_SIZE, LIGHT_BEIGE
 from .gameboard import Gameboard
 import math
+pygame.mixer.init()
+jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
 
 
 class Game:
@@ -31,6 +33,7 @@ class Game:
             if successful_move:
                 self.selected_piece = None
                 self.valid_moves_of_selected_piece = {}
+                jump_sound.play()
                 return False
             else:
                 # if not successful, deselect the current piece. Try to select the piece in the new location instead if possible
@@ -95,4 +98,5 @@ class Game:
     
     def ai_move(self, gameboard):
         self.gameboard = gameboard
+        jump_sound.play()
         self._change_turn()
