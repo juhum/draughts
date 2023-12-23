@@ -2,7 +2,6 @@ import pygame
 from .constants import BLACK, WHITE, SQUARE_SIZE, YELLOW, GRAY, GRAY_LIGHT
 pygame.mixer.init()
 make_king_sound = pygame.mixer.Sound("sounds/make_king_sound.wav")
-jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
 class Piece:
     PADDING = 20
     OUTLINE = 2
@@ -12,7 +11,6 @@ class Piece:
         self.col = col
         self.color = color
         self.king = False
-        self.direction = 1 if self.color == BLACK else -1
         self.x = 0
         self.y = 0
         self.calculate_position()
@@ -22,11 +20,10 @@ class Piece:
         self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2
 
     def make_king(self):
-        make_king_sound.play()
         self.king = True
-        
+        make_king_sound.play()
 
-    def draw(self, window):
+    def draw_piece(self, window):
         radius = SQUARE_SIZE // 2 - self.PADDING
 
         # Draw shadow beneath the piece
@@ -50,14 +47,10 @@ class Piece:
                 ],
             )
     
-    def move_to(self, row, col):
+    def move(self, row, col):
         self.row = row
         self.col = col
         self.calculate_position()
-
-    def is_king(self) -> bool:
-        return self.king
     
     def __repr__(self):
         return str(self.color)
-    

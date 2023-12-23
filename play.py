@@ -1,6 +1,5 @@
 import pygame
 from src.constants import WIDTH, HEIGHT, SQUARE_SIZE, WHITE, BLACK
-from src.gameboard import Gameboard
 from src.game import Game
 from src.ai import minimax
 
@@ -18,17 +17,21 @@ def main():
     run = True
     clock = pygame.time.Clock()
     game = Game(WINDOW)
+    
     while run:
         clock.tick(FPS)
 
         if game.turn == BLACK:
-            value, new_board = minimax(game.gameboard, 4, BLACK, game)
+            value, new_board = minimax(game.get_board(), 4, BLACK, game)
+            print("AI Decision:", value, new_board)
             game.ai_move(new_board)
+            print("AI moved")
+
 
 
         if game.winner() != None:
-            print("winner" + str(game.winner()))
-            run = False
+             print(game.winner())
+             run = False
             
 
         for event in pygame.event.get():
