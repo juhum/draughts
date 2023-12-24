@@ -39,11 +39,11 @@ class Gameboard:
 
         if row == ROWS - 1 or row == 0:
             piece.make_king()
-            if piece.color == WHITE:
+            if piece.color == WHITE and not piece.is_king():
                 self.white_kings += 1
-            else:
+            elif piece.color == BLACK and not piece.is_king():
                 self.black_kings += 1
-        jump_sound.play()
+        #jump_sound.play()
 
     def get_piece(self, row, col):
         return self.gameboard[row][col]
@@ -167,10 +167,7 @@ class Gameboard:
         return None
     
     def evaluate(self):
-        piece_weight = 1.0
-        king_weight = 2.0
-
-        return (self.black_left - self.white_left) * piece_weight + (self.black_kings - self.white_kings) * king_weight
+        return self.black_left - self.white_left + (self.black_kings * 0.5 - self.white_kings * 0.5)
 
     
     def get_all_pieces(self, color):

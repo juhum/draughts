@@ -23,6 +23,9 @@ class Piece:
         self.king = True
         make_king_sound.play()
 
+    def is_king(self) -> bool:
+        return self.king
+
     def draw_piece(self, window):
         radius = SQUARE_SIZE // 2 - self.PADDING
 
