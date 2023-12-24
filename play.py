@@ -17,8 +17,9 @@ def get_row_col_from_mouse(pos):
 def show_menu(window):
     menu_font = pygame.font.Font(None, 36)
     menu_text = ["Start New Game", "Quit"]
-    menu_buttons = [menu_font.render(text, True, WHITE) for text in menu_text]
+    menu_buttons = [menu_font.render(text, True, (255, 255, 255)) for text in menu_text]
     button_rects = [button.get_rect(center=(WIDTH // 2, i * 100 + HEIGHT // 2)) for i, button in enumerate(menu_buttons)]
+    button_colors = [(0, 128, 0), (128, 0, 0)]  # Green for "Start New Game", Red for "Quit"
 
     while True:
         for event in pygame.event.get():
@@ -31,10 +32,13 @@ def show_menu(window):
                 for i, rect in enumerate(button_rects):
                     if rect.collidepoint(mouse_pos):
                         return i + 1  # Return the button index (1-indexed)
-
-        window.fill(BLACK)
-        for button, rect in zip(menu_buttons, button_rects):
-            window.blit(button, rect)
+                    
+        
+        game = Game(WINDOW)
+        game.gameboard.draw_squares(window)
+        for button, rect, color in zip(menu_buttons, button_rects, button_colors):
+            pygame.draw.rect(window, color, rect.inflate(10, 10))  # Draw colored button background
+            window.blit(button, rect)  # Draw button text
 
         pygame.display.flip()
 
@@ -69,9 +73,7 @@ def run_game():
 
         if game.turn == BLACK:
             value, new_board = minimax(game.get_board(), 4, True, game)
-            print("AI Decision:", value, new_board)
             game.ai_move(new_board)
-            print("AI moved")
 
 
 
