@@ -1,8 +1,7 @@
 import pygame
 from copy import deepcopy
+from ..constants import BLACK,WHITE
 
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
 def minimax(position, depth, max_player, game):
     if depth == 0 or position.winner() != None:
         return position.evaluate(), position

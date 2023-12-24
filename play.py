@@ -7,7 +7,7 @@ from src.ai import minimax
 FPS = 60
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Draughts')
-# sounds fix, better menu, after winning/losing screen, no possible moves for any piece = lose 
+# sounds fix, better menu, after winning/losing screen, no possible moves for any piece = lose, comments
 def get_row_col_from_mouse(pos):
     x, y = pos
     row = y // SQUARE_SIZE
@@ -16,10 +16,10 @@ def get_row_col_from_mouse(pos):
 
 def show_menu(window):
     menu_font = pygame.font.Font(None, 36)
-    menu_text = ["Start New Game", "Quit"]
-    menu_buttons = [menu_font.render(text, True, (255, 255, 255)) for text in menu_text]
+    menu_text = ["Start Game", "Quit"]
+    menu_buttons = [menu_font.render(text, True, WHITE) for text in menu_text]
     button_rects = [button.get_rect(center=(WIDTH // 2, i * 100 + HEIGHT // 2)) for i, button in enumerate(menu_buttons)]
-    button_colors = [(0, 128, 0), (128, 0, 0)]  # Green for "Start New Game", Red for "Quit"
+    button_colors = [BLACK, BLACK]
 
     while True:
         for event in pygame.event.get():
