@@ -10,7 +10,7 @@ game_over = False
 winner = None
 pygame.display.set_caption('Draughts')
 pygame.init()
-# no possible moves for any piece = lose, comments
+#, comments
 def get_row_col_from_mouse(pos):
     x, y = pos
     row = y // SQUARE_SIZE

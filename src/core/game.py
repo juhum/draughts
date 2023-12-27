@@ -15,6 +15,8 @@ class Game:
         self.gameboard = Gameboard()
         self.turn = WHITE
         self.valid_moves = {}
+        self.winner_moves = None
+
         
 
     def update(self):
@@ -42,6 +44,18 @@ class Game:
         return False
     
     def _move(self, row, col):
+        remaining_pieces = self.gameboard.get_all_pieces(self.turn)
+        any_valid_moves = False # initialize a variable to store if there are any valid moves
+        for piece in remaining_pieces:
+            valid_moves = self.gameboard.get_valid_moves(piece) # use a different variable name than valid_moves_pieces
+            if valid_moves:
+                print(f"{self.turn} piece at ({piece.row}, {piece.col}) has valid moves: {valid_moves}")
+                any_valid_moves = True # set the variable to True if there is at least one valid move
+
+        if not any_valid_moves: # use the variable to check if there are no valid moves
+            self.winner_moves = 'WHITE' if self.turn == BLACK else 'BLACK'          # WINNER IS NOT METHOD FOR SETTING WINNER, IT JUST CALCULATES DEPENDING IF THERE ARE 0, NEED TO SET VARIABLE 
+            print("No valid moves for any pieces. Game over.")
+
         piece = self.gameboard.get_piece(row, col)
         if self.selected_piece and piece == 0 and (row, col) in self.valid_moves:
             self.gameboard.move(self.selected_piece, row, col)
@@ -55,12 +69,14 @@ class Game:
         return True
     
     def change_turn(self):
-        self.valid_moves = {}
+        self.valid_moves = {} # remove this line or use it to store the valid moves for each piece
         if self.turn == WHITE:
             self.turn = BLACK
         else:
             self.turn = WHITE
         print("Turn changed:", self.turn)
+
+
 
     def draw_valid_moves(self, moves):
         for move in moves:
@@ -75,6 +91,9 @@ class Game:
             pygame.draw.circle(self.window, LIGHT_BEIGE, center, pulsate_radius)
 
     def winner(self):
+        if self.winner_moves is not None:
+            return self.winner_moves
+        
         return self.gameboard.winner()
     
 

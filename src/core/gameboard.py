@@ -176,3 +176,4 @@ class Gameboard:
                 if piece != 0 and piece.color == color:
                     pieces.append(piece)
         return pieces
+    
