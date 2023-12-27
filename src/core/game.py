@@ -3,7 +3,7 @@ from .constants import BLACK, WHITE, BLUE, SQUARE_SIZE, LIGHT_BEIGE
 from .gameboard import Gameboard
 import math
 pygame.mixer.init()
-jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
+jump_sound = pygame.mixer.Sound("src/sounds/jump_sound.wav")
 
 class Game:
     def __init__(self, window):

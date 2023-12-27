@@ -1,7 +1,7 @@
 import pygame
 from .constants import BLACK, WHITE, SQUARE_SIZE, YELLOW, GRAY, GRAY_LIGHT
 pygame.mixer.init()
-jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
+jump_sound = pygame.mixer.Sound("src/sounds/jump_sound.wav")
 class Piece:
     PADDING = 20
     OUTLINE = 2

@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
-from src.constants import WIDTH, HEIGHT, SQUARE_SIZE, WHITE, BLACK
-from src.game import Game
+from src.core.constants import WIDTH, HEIGHT, SQUARE_SIZE, WHITE, BLACK
+from src.core.game import Game
 from src.ai import minimax
 
 FPS = 60
@@ -10,7 +10,7 @@ game_over = False
 winner = None
 pygame.display.set_caption('Draughts')
 pygame.init()
-# sounds fix, no possible moves for any piece = lose, comments
+# no possible moves for any piece = lose, comments
 def get_row_col_from_mouse(pos):
     x, y = pos
     row = y // SQUARE_SIZE

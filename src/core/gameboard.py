@@ -2,7 +2,7 @@ import pygame
 from .constants import DARK, LIGHT, BLACK, WHITE, ROWS, COLS, SQUARE_SIZE
 from .piece import Piece
 pygame.mixer.init()
-jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
+jump_sound = pygame.mixer.Sound("src/sounds/jump_sound.wav")
 
 class Gameboard:
     def __init__(self):

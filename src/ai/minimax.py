@@ -1,8 +1,8 @@
 import pygame
 from copy import deepcopy
-from ..constants import BLACK,WHITE
+from ..core.constants import BLACK,WHITE
 pygame.mixer.init()
-jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
+jump_sound = pygame.mixer.Sound("src/sounds/jump_sound.wav")
 
 def minimax(position, depth, max_player, game):
     if depth == 0 or position.winner() != None:
