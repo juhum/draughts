@@ -3,7 +3,6 @@ from .constants import DARK, LIGHT, BLACK, WHITE, ROWS, COLS, SQUARE_SIZE
 from .piece import Piece
 pygame.mixer.init()
 jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
-make_king_sound = pygame.mixer.Sound("sounds/make_king_sound.wav")
 
 class Gameboard:
     def __init__(self):
@@ -43,7 +42,7 @@ class Gameboard:
                 self.white_kings += 1
             elif piece.color == BLACK and not piece.is_king():
                 self.black_kings += 1
-        #jump_sound.play()
+
 
     def get_piece(self, row, col):
         return self.gameboard[row][col]

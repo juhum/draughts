@@ -2,7 +2,6 @@ import pygame
 from .constants import BLACK, WHITE, SQUARE_SIZE, YELLOW, GRAY, GRAY_LIGHT
 pygame.mixer.init()
 jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
-make_king_sound = pygame.mixer.Sound("sounds/make_king_sound.wav")
 class Piece:
     PADDING = 20
     OUTLINE = 2
@@ -23,7 +22,6 @@ class Piece:
     def make_king(self):
         if not self.is_king():
             self.king = True
-            #make_king_sound.play()
 
     def is_king(self) -> bool:
         return self.king
