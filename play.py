@@ -10,7 +10,7 @@ game_over = False
 winner = None
 pygame.display.set_caption('Draughts')
 pygame.init()
-# sounds fix, better menu, after winning/losing screen, no possible moves for any piece = lose, comments
+# sounds fix, no possible moves for any piece = lose, comments
 def get_row_col_from_mouse(pos):
     x, y = pos
     row = y // SQUARE_SIZE
@@ -46,9 +46,18 @@ def show_menu(window, game_over=False, winner=None):
 
         if game_over and winner is not None:
             winner_text = f"Winner: {winner}"
+            # Render text with white color
             winner_font = pygame.font.Font(None, 48)
             winner_surface = winner_font.render(winner_text, True, WHITE)
             winner_rect = winner_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100))
+
+            # Render text with black outline
+            outline_font = pygame.font.Font(None, 48)
+            outline_surface = outline_font.render(winner_text, True, BLACK)
+            outline_rect = outline_surface.get_rect(center=(WIDTH // 2 + 2, HEIGHT // 2 - 98))  # Slightly offset for the outline effect
+
+            # Blit the outline first and then the text on top
+            window.blit(outline_surface, outline_rect)
             window.blit(winner_surface, winner_rect)
 
         pygame.display.flip()
