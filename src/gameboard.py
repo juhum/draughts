@@ -1,5 +1,5 @@
 import pygame
-from .constants import DARK, LIGHT, BLACK, WHITE, BLUE, ROWS, COLS, SQUARE_SIZE
+from .constants import DARK, LIGHT, BLACK, WHITE, ROWS, COLS, SQUARE_SIZE
 from .piece import Piece
 pygame.mixer.init()
 jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
@@ -160,9 +160,9 @@ class Gameboard:
 
     def winner(self):
         if self.black_left <= 0:
-            return WHITE
+            return 'WHITE'
         elif self.white_left <= 0:
-            return BLACK
+            return 'BLACK'
         
         return None
     

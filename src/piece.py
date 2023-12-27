@@ -1,6 +1,7 @@
 import pygame
 from .constants import BLACK, WHITE, SQUARE_SIZE, YELLOW, GRAY, GRAY_LIGHT
 pygame.mixer.init()
+jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
 make_king_sound = pygame.mixer.Sound("sounds/make_king_sound.wav")
 class Piece:
     PADDING = 20
@@ -20,8 +21,9 @@ class Piece:
         self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2
 
     def make_king(self):
-        self.king = True
-        make_king_sound.play()
+        if not self.is_king():
+            self.king = True
+            #make_king_sound.play()
 
     def is_king(self) -> bool:
         return self.king
@@ -54,6 +56,7 @@ class Piece:
         self.row = row
         self.col = col
         self.calculate_position()
+        
     
     def __repr__(self):
         return str(self.color)

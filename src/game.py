@@ -2,7 +2,8 @@ import pygame
 from .constants import BLACK, WHITE, BLUE, SQUARE_SIZE, LIGHT_BEIGE
 from .gameboard import Gameboard
 import math
-
+pygame.mixer.init()
+jump_sound = pygame.mixer.Sound("sounds/jump_sound.wav")
 
 class Game:
     def __init__(self, window):
@@ -14,6 +15,7 @@ class Game:
         self.gameboard = Gameboard()
         self.turn = WHITE
         self.valid_moves = {}
+        
 
     def update(self):
         self.gameboard.draw(self.window)
@@ -49,7 +51,7 @@ class Game:
             self.change_turn()                  
         else:
             return False
-        
+        jump_sound.play()
         return True
     
     def change_turn(self):
@@ -79,6 +81,7 @@ class Game:
     def ai_move(self, gameboard):
         self.gameboard = gameboard
         self.change_turn()
+        jump_sound.play()
 
 
     def get_board(self):
