@@ -10,14 +10,34 @@ game_over = False
 winner = None
 pygame.display.set_caption('Draughts')
 pygame.init()
-#, comments
+
 def get_row_col_from_mouse(pos):
+    """
+    Returns the row and column indices of the board square corresponding to the mouse position.
+
+    Parameters:
+    pos (tuple): The x and y coordinates of the mouse position.
+
+    Returns:
+    (int, int): A tuple of the row and column indices.
+    """
     x, y = pos
     row = y // SQUARE_SIZE
     col = x // SQUARE_SIZE
     return row, col
 
 def show_menu(window, game_over=False, winner=None):
+    """
+    Displays a menu screen with two options: start game or quit.
+
+    Parameters:
+    window (pygame.Surface): The window to display the menu on.
+    game_over (bool): True if the game is over, False otherwise. Default is False.
+    winner (str or None): The winner of the game, or None if there is no winner. Default is None.
+
+    Returns:
+    int: The index of the chosen option (1 for start game, 2 for quit).
+    """
     pygame.init()
     menu_font = pygame.font.Font(None, 36)
     menu_text = ["Start Game", "Quit"]
@@ -65,6 +85,12 @@ def show_menu(window, game_over=False, winner=None):
 
 
 def run_game():
+    """
+    Runs the main game loop until the game ends or the user quits.
+
+    Returns:
+    str or None: The winner of the game, or None if the game doesn't end.
+    """
     run = True
     clock = pygame.time.Clock()
     game = Game(WINDOW)
@@ -98,6 +124,9 @@ def run_game():
     return None  # Return None when the game doesn't end
 
 def main():
+    """
+    The main function that initializes the pygame window and runs the game menu.
+    """
     global winner
     global game_over
     pygame.init()
@@ -118,7 +147,7 @@ def main():
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter 1 or 2.")
+            print("Invalid choice.")
 
     pygame.quit()
 
