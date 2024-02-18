@@ -47,4 +47,4 @@ It is possible to restart game by closing the window and clicking start game.
 - Main menu and end-of-game menu
 
 
-![showcase](https://github.com/juhum/draughts/blob/main/misc/showcase.gif)
+![showcase](https://github.com/juhum/QuizApp/blob/master/showcase.gif)
